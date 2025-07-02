@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import Header from './Header';
 import FilterBar from './FilterBar';
 import CharacterGrid from './CharacterGrid';
+import Pagination from './Pagination';
 import { toast } from '@/hooks/use-toast';
 
 export interface Character {
@@ -43,9 +44,10 @@ interface Filters {
   gender: string;
 }
 
-const fetchCharacters = async (filters: Filters): Promise<ApiResponse> => {
+const fetchCharacters = async (filters: Filters, page: number = 1): Promise<ApiResponse> => {
   const params = new URLSearchParams();
   
+  params.append('page', page.toString());
   if (filters.name) params.append('name', filters.name);
   if (filters.status && filters.status !== 'all') params.append('status', filters.status);
   if (filters.gender && filters.gender !== 'all') params.append('gender', filters.gender);
@@ -71,10 +73,11 @@ const RickAndMortyExplorer = () => {
     status: 'all',
     gender: 'all'
   });
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { data, isLoading, error, isError } = useQuery({
-    queryKey: ['characters', filters],
-    queryFn: () => fetchCharacters(filters),
+    queryKey: ['characters', filters, currentPage],
+    queryFn: () => fetchCharacters(filters, currentPage),
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
@@ -92,6 +95,12 @@ const RickAndMortyExplorer = () => {
   const handleFilterChange = (newFilters: Partial<Filters>) => {
     console.log('Filter change:', newFilters);
     setFilters(prev => ({ ...prev, ...newFilters }));
+    setCurrentPage(1); // Reset to first page when filters change
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -112,6 +121,28 @@ const RickAndMortyExplorer = () => {
           isLoading={isLoading} 
           isEmpty={data?.results?.length === 0}
         />
+        
+        {/* Pagination */}
+        <div className="px-4 pb-12">
+          <div className="max-w-7xl mx-auto">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={data?.info.pages || 1}
+              onPageChange={handlePageChange}
+              isLoading={isLoading}
+            />
+            
+            {/* Results info */}
+            {data?.info && (
+              <div className="text-center mt-6">
+                <p className="text-slate-400 font-exo text-sm">
+                  Mostrando página {currentPage} de {data.info.pages} 
+                  ({data.info.count} personajes en total)
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
