@@ -42,6 +42,10 @@ interface Filters {
   name: string;
   status: string;
   gender: string;
+  origin: string;
+  location: string;
+  episode: string;
+  sortBy: string;
 }
 
 const fetchCharacters = async (filters: Filters, page: number = 1): Promise<ApiResponse> => {
@@ -67,11 +71,55 @@ const fetchCharacters = async (filters: Filters, page: number = 1): Promise<ApiR
   return response.json();
 };
 
+const sortCharacters = (characters: Character[], sortBy: string): Character[] => {
+  if (sortBy === 'alphabetical') {
+    return [...characters].sort((a, b) => a.name.localeCompare(b.name));
+  } else if (sortBy === 'gender') {
+    const genderOrder = { 'Male': 1, 'Female': 2, 'unknown': 3, 'Genderless': 4 };
+    return [...characters].sort((a, b) => {
+      return (genderOrder[a.gender] || 5) - (genderOrder[b.gender] || 5);
+    });
+  }
+  return characters;
+};
+
+const filterCharacters = (characters: Character[], filters: Filters): Character[] => {
+  return characters.filter(character => {
+    // Filter by origin
+    if (filters.origin && !character.origin.name.toLowerCase().includes(filters.origin.toLowerCase())) {
+      return false;
+    }
+    
+    // Filter by location
+    if (filters.location && !character.location.name.toLowerCase().includes(filters.location.toLowerCase())) {
+      return false;
+    }
+    
+    // Filter by episode
+    if (filters.episode) {
+      const episodeNumber = filters.episode.trim();
+      const hasEpisode = character.episode.some(episodeUrl => {
+        const epNum = episodeUrl.split('/').pop();
+        return epNum === episodeNumber;
+      });
+      if (!hasEpisode) {
+        return false;
+      }
+    }
+    
+    return true;
+  });
+};
+
 const RickAndMortyExplorer = () => {
   const [filters, setFilters] = useState<Filters>({
     name: '',
     status: 'all',
-    gender: 'all'
+    gender: 'all',
+    origin: '',
+    location: '',
+    episode: '',
+    sortBy: 'none'
   });
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -103,6 +151,14 @@ const RickAndMortyExplorer = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Apply client-side filtering and sorting
+  let processedCharacters = data?.results || [];
+  processedCharacters = filterCharacters(processedCharacters, filters);
+  processedCharacters = sortCharacters(processedCharacters, filters.sortBy);
+
+  // Calculate filtered count
+  const filteredCount = processedCharacters.length;
+
   return (
     <div className="min-h-screen bg-space-gradient">
       {/* Animated background elements */}
@@ -117,10 +173,10 @@ const RickAndMortyExplorer = () => {
         <Header />
         <FilterBar filters={filters} onFilterChange={handleFilterChange} />
         <CharacterGrid 
-          characters={data?.results || []} 
+          characters={processedCharacters} 
           isLoading={isLoading} 
-          isEmpty={data?.results?.length === 0}
-          totalCount={data?.info.count}
+          isEmpty={processedCharacters.length === 0}
+          totalCount={filteredCount}
         />
         
         {/* Pagination */}

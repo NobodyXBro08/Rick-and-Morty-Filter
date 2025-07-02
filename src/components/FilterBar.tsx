@@ -8,6 +8,10 @@ interface Filters {
   name: string;
   status: string;
   gender: string;
+  origin: string;
+  location: string;
+  episode: string;
+  sortBy: string;
 }
 
 interface FilterBarProps {
@@ -20,7 +24,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
     <div className="px-4 mb-8">
       <div className="max-w-6xl mx-auto">
         <div className="bg-slate-900/50 backdrop-blur-sm border border-rick-green-500/20 rounded-2xl p-6 shadow-2xl">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             
             {/* Search Input */}
             <div className="relative">
@@ -89,6 +93,71 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
                   <SelectItem value="unknown" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">Unknown</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+
+            {/* Sort By */}
+            <div>
+              <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
+                SORT BY
+              </label>
+              <Select value={filters.sortBy} onValueChange={(value) => onFilterChange({ sortBy: value })}>
+                <SelectTrigger className="bg-slate-800/80 border-slate-700 text-white focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo">
+                  <SelectValue placeholder="Sort order" />
+                </SelectTrigger>
+                <SelectContent className="bg-slate-800 border-slate-700 text-white">
+                  <SelectItem value="none" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">Default</SelectItem>
+                  <SelectItem value="alphabetical" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">Alphabetical</SelectItem>
+                  <SelectItem value="gender" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">By Gender</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Origin Filter */}
+            <div>
+              <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
+                ORIGIN
+              </label>
+              <div className="relative">
+                <Input
+                  type="text"
+                  placeholder="Filter by origin..."
+                  value={filters.origin}
+                  onChange={(e) => onFilterChange({ origin: e.target.value })}
+                  className="bg-slate-800/80 border-slate-700 text-white placeholder:text-slate-400 focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo"
+                />
+              </div>
+            </div>
+
+            {/* Location Filter */}
+            <div>
+              <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
+                LOCATION
+              </label>
+              <div className="relative">
+                <Input
+                  type="text"
+                  placeholder="Filter by location..."
+                  value={filters.location}
+                  onChange={(e) => onFilterChange({ location: e.target.value })}
+                  className="bg-slate-800/80 border-slate-700 text-white placeholder:text-slate-400 focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo"
+                />
+              </div>
+            </div>
+
+            {/* Episode Filter */}
+            <div>
+              <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
+                EPISODE
+              </label>
+              <div className="relative">
+                <Input
+                  type="text"
+                  placeholder="Episode number (e.g. 1)..."
+                  value={filters.episode}
+                  onChange={(e) => onFilterChange({ episode: e.target.value })}
+                  className="bg-slate-800/80 border-slate-700 text-white placeholder:text-slate-400 focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo"
+                />
+              </div>
             </div>
           </div>
         </div>
