@@ -120,6 +120,7 @@ const RickAndMortyExplorer = () => {
           characters={data?.results || []} 
           isLoading={isLoading} 
           isEmpty={data?.results?.length === 0}
+          totalCount={data?.info.count}
         />
         
         {/* Pagination */}

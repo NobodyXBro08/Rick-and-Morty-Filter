@@ -7,6 +7,7 @@ interface CharacterGridProps {
   characters: Character[];
   isLoading: boolean;
   isEmpty: boolean;
+  totalCount?: number;
 }
 
 const LoadingSkeleton = () => (
@@ -34,15 +35,15 @@ const EmptyState = () => (
   </div>
 );
 
-const CharacterGrid = ({ characters, isLoading, isEmpty }: CharacterGridProps) => {
+const CharacterGrid = ({ characters, isLoading, isEmpty, totalCount }: CharacterGridProps) => {
   return (
     <div className="px-4 pb-12">
       <div className="max-w-7xl mx-auto">
         {/* Results count */}
-        {!isLoading && !isEmpty && (
+        {!isLoading && !isEmpty && totalCount && (
           <div className="mb-6">
             <p className="text-rick-green-500 font-exo font-semibold text-lg">
-              Found {characters.length} character{characters.length !== 1 ? 's' : ''} in the multiverse
+              Found {totalCount} character{totalCount !== 1 ? 's' : ''} in the multiverse
             </p>
           </div>
         )}
