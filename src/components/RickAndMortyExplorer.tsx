@@ -48,6 +48,22 @@ interface Filters {
   sortBy: string;
 }
 
+interface OriginOption {
+  name: string;
+  url: string;
+}
+
+interface LocationOption {
+  name: string;
+  url: string;
+}
+
+interface EpisodeOption {
+  id: number;
+  name: string;
+  episode: string;
+}
+
 const fetchCharacters = async (filters: Filters, page: number = 1): Promise<ApiResponse> => {
   const params = new URLSearchParams();
   
@@ -71,6 +87,37 @@ const fetchCharacters = async (filters: Filters, page: number = 1): Promise<ApiR
   return response.json();
 };
 
+const fetchOrigins = async (): Promise<OriginOption[]> => {
+  const response = await fetch('https://rickandmortyapi.com/api/location');
+  if (!response.ok) return [];
+  const data = await response.json();
+  return data.results.map((location: any) => ({
+    name: location.name,
+    url: location.url
+  }));
+};
+
+const fetchLocations = async (): Promise<LocationOption[]> => {
+  const response = await fetch('https://rickandmortyapi.com/api/location');
+  if (!response.ok) return [];
+  const data = await response.json();
+  return data.results.map((location: any) => ({
+    name: location.name,
+    url: location.url
+  }));
+};
+
+const fetchEpisodes = async (): Promise<EpisodeOption[]> => {
+  const response = await fetch('https://rickandmortyapi.com/api/episode');
+  if (!response.ok) return [];
+  const data = await response.json();
+  return data.results.map((episode: any) => ({
+    id: episode.id,
+    name: episode.name,
+    episode: episode.episode
+  }));
+};
+
 const sortCharacters = (characters: Character[], sortBy: string): Character[] => {
   if (sortBy === 'alphabetical') {
     return [...characters].sort((a, b) => a.name.localeCompare(b.name));
@@ -86,21 +133,20 @@ const sortCharacters = (characters: Character[], sortBy: string): Character[] =>
 const filterCharacters = (characters: Character[], filters: Filters): Character[] => {
   return characters.filter(character => {
     // Filter by origin
-    if (filters.origin && !character.origin.name.toLowerCase().includes(filters.origin.toLowerCase())) {
+    if (filters.origin && filters.origin !== 'all' && character.origin.name !== filters.origin) {
       return false;
     }
     
     // Filter by location
-    if (filters.location && !character.location.name.toLowerCase().includes(filters.location.toLowerCase())) {
+    if (filters.location && filters.location !== 'all' && character.location.name !== filters.location) {
       return false;
     }
     
     // Filter by episode
-    if (filters.episode) {
-      const episodeNumber = filters.episode.trim();
+    if (filters.episode && filters.episode !== 'all') {
       const hasEpisode = character.episode.some(episodeUrl => {
-        const epNum = episodeUrl.split('/').pop();
-        return epNum === episodeNumber;
+        const epId = episodeUrl.split('/').pop();
+        return epId === filters.episode;
       });
       if (!hasEpisode) {
         return false;
@@ -116,9 +162,9 @@ const RickAndMortyExplorer = () => {
     name: '',
     status: 'all',
     gender: 'all',
-    origin: '',
-    location: '',
-    episode: '',
+    origin: 'all',
+    location: 'all',
+    episode: 'all',
     sortBy: 'none'
   });
   const [currentPage, setCurrentPage] = useState(1);
@@ -127,6 +173,24 @@ const RickAndMortyExplorer = () => {
     queryKey: ['characters', filters, currentPage],
     queryFn: () => fetchCharacters(filters, currentPage),
     staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+
+  const { data: origins } = useQuery({
+    queryKey: ['origins'],
+    queryFn: fetchOrigins,
+    staleTime: 10 * 60 * 1000, // 10 minutes
+  });
+
+  const { data: locations } = useQuery({
+    queryKey: ['locations'],
+    queryFn: fetchLocations,
+    staleTime: 10 * 60 * 1000, // 10 minutes
+  });
+
+  const { data: episodes } = useQuery({
+    queryKey: ['episodes'],
+    queryFn: fetchEpisodes,
+    staleTime: 10 * 60 * 1000, // 10 minutes
   });
 
   useEffect(() => {
@@ -156,9 +220,9 @@ const RickAndMortyExplorer = () => {
   processedCharacters = filterCharacters(processedCharacters, filters);
   processedCharacters = sortCharacters(processedCharacters, filters.sortBy);
 
-  // Use API count for total, but show filtered count when client-side filters are applied
-  const hasClientSideFilters = filters.origin || filters.location || filters.episode;
-  const displayCount = hasClientSideFilters ? processedCharacters.length : (data?.info.count || 0);
+  // Calculate the actual count considering filters
+  const hasClientSideFilters = filters.origin !== 'all' || filters.location !== 'all' || filters.episode !== 'all';
+  const actualCount = hasClientSideFilters ? processedCharacters.length : (data?.info.count || 0);
 
   return (
     <div className="min-h-screen bg-space-gradient">
@@ -172,12 +236,18 @@ const RickAndMortyExplorer = () => {
 
       <div className="relative z-10">
         <Header />
-        <FilterBar filters={filters} onFilterChange={handleFilterChange} />
+        <FilterBar 
+          filters={filters} 
+          onFilterChange={handleFilterChange}
+          origins={origins || []}
+          locations={locations || []}
+          episodes={episodes || []}
+        />
         <CharacterGrid 
           characters={processedCharacters} 
           isLoading={isLoading} 
           isEmpty={processedCharacters.length === 0}
-          totalCount={displayCount}
+          totalCount={actualCount}
         />
         
         {/* Pagination */}
