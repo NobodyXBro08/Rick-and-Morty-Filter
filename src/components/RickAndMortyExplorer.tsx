@@ -225,15 +225,28 @@ const RickAndMortyExplorer = () => {
   const actualCount = hasClientSideFilters ? processedCharacters.length : (data?.info.count || 0);
 
   return (
-    <div className="min-h-screen bg-space-gradient">
-      {/* Animated background elements */}
+    <div className="min-h-screen bg-multiverse-gradient relative overflow-hidden">
+      {/* Animated multiverse background with portals */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-4 h-4 bg-rick-green-500 rounded-full animate-float opacity-60"></div>
-        <div className="absolute top-40 right-20 w-3 h-3 bg-portal-blue-500 rounded-full animate-float opacity-40" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute bottom-40 left-1/4 w-2 h-2 bg-morty-yellow-500 rounded-full animate-float opacity-50" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute bottom-20 right-1/3 w-5 h-5 bg-space-purple-500 rounded-full animate-float opacity-30" style={{ animationDelay: '0.5s' }}></div>
+        {/* Large portal effects */}
+        <div className="absolute top-20 left-10 w-32 h-32 bg-portal-gradient rounded-full opacity-10 animate-portal-pulse blur-2xl"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 bg-rick-gradient rounded-full opacity-15 animate-portal-spin blur-xl" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-40 left-1/4 w-20 h-20 bg-portal-blue-500 rounded-full opacity-10 animate-floating-particles blur-lg" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-20 right-1/3 w-28 h-28 bg-space-purple-500 rounded-full opacity-8 animate-portal-pulse blur-2xl" style={{ animationDelay: '0.5s' }}></div>
+        
+        {/* Small floating particles - Rick and Morty style */}
+        <div className="absolute top-32 left-16 w-3 h-3 bg-rick-green-500 rounded-full animate-floating-particles opacity-60"></div>
+        <div className="absolute top-60 right-32 w-2 h-2 bg-portal-blue-500 rounded-full animate-floating-particles opacity-50" style={{ animationDelay: '1.5s' }}></div>
+        <div className="absolute bottom-60 left-20 w-4 h-4 bg-morty-yellow-500 rounded-full animate-floating-particles opacity-70" style={{ animationDelay: '3s' }}></div>
+        <div className="absolute bottom-32 right-16 w-2 h-2 bg-rick-cyan-500 rounded-full animate-floating-particles opacity-40" style={{ animationDelay: '2.5s' }}></div>
+        <div className="absolute top-80 left-1/2 w-1 h-1 bg-space-purple-500 rounded-full animate-floating-particles opacity-80" style={{ animationDelay: '4s' }}></div>
+        
+        {/* Portal rings */}
+        <div className="absolute top-1/4 right-1/4 w-64 h-64 border-2 border-rick-green-500 rounded-full opacity-20 animate-portal-spin"></div>
+        <div className="absolute bottom-1/4 left-1/4 w-48 h-48 border border-portal-blue-500 rounded-full opacity-15 animate-portal-spin" style={{ animationDelay: '2s', animationDirection: 'reverse' }}></div>
       </div>
 
+      {/* Main content with higher z-index */}
       <div className="relative z-10">
         <Header />
         <FilterBar 
@@ -260,18 +273,23 @@ const RickAndMortyExplorer = () => {
               isLoading={isLoading}
             />
             
-            {/* Results info */}
+            {/* Results info with Rick and Morty styling */}
             {data?.info && (
-              <div className="text-center mt-6">
-                <p className="text-slate-400 font-exo text-sm">
-                  Mostrando página {currentPage} de {data.info.pages} 
-                  ({data.info.count} personajes en total)
+              <div className="text-center mt-8 p-4 bg-multiverse-dark-800/30 backdrop-blur-sm rounded-lg border border-rick-green-500/20">
+                <p className="text-rick-cyan-400 font-orbitron text-sm tracking-wide">
+                  <span className="text-rick-green-500 font-semibold">DIMENSION C-137:</span> Página {currentPage} de {data.info.pages} 
+                </p>
+                <p className="text-portal-blue-400 font-exo text-xs mt-1 opacity-80">
+                  ({data.info.count} personajes descubiertos en el multiverso)
                 </p>
               </div>
             )}
           </div>
         </div>
       </div>
+      
+      {/* Background portal vortex */}
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-portal-gradient opacity-3 rounded-full blur-3xl animate-portal-spin pointer-events-none -z-10"></div>
     </div>
   );
 };
