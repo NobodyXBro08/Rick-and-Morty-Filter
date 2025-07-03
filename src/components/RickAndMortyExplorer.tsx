@@ -156,8 +156,9 @@ const RickAndMortyExplorer = () => {
   processedCharacters = filterCharacters(processedCharacters, filters);
   processedCharacters = sortCharacters(processedCharacters, filters.sortBy);
 
-  // Calculate filtered count
-  const filteredCount = processedCharacters.length;
+  // Use API count for total, but show filtered count when client-side filters are applied
+  const hasClientSideFilters = filters.origin || filters.location || filters.episode;
+  const displayCount = hasClientSideFilters ? processedCharacters.length : (data?.info.count || 0);
 
   return (
     <div className="min-h-screen bg-space-gradient">
@@ -176,7 +177,7 @@ const RickAndMortyExplorer = () => {
           characters={processedCharacters} 
           isLoading={isLoading} 
           isEmpty={processedCharacters.length === 0}
-          totalCount={filteredCount}
+          totalCount={displayCount}
         />
         
         {/* Pagination */}

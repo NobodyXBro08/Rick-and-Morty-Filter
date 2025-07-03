@@ -26,7 +26,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
         <div className="bg-slate-900/50 backdrop-blur-sm border border-rick-green-500/20 rounded-2xl p-6 shadow-2xl">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             
-            {/* Search Input */}
+            {/* Search Input - Solo este campo es de texto libre */}
             <div className="relative">
               <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
                 SEARCH CHARACTER
@@ -43,7 +43,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
               </div>
             </div>
 
-            {/* Status Filter */}
+            {/* Status Filter - Select dropdown */}
             <div>
               <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
                 STATUS
@@ -52,7 +52,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
                 <SelectTrigger className="bg-slate-800/80 border-slate-700 text-white focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo">
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-800 border-slate-700 text-white">
+                <SelectContent className="bg-slate-800 border-slate-700 text-white z-50">
                   <SelectItem value="all" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">All Status</SelectItem>
                   <SelectItem value="alive" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">
                     <div className="flex items-center gap-2">
@@ -76,7 +76,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
               </Select>
             </div>
 
-            {/* Gender Filter */}
+            {/* Gender Filter - Select dropdown */}
             <div>
               <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
                 GENDER
@@ -85,7 +85,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
                 <SelectTrigger className="bg-slate-800/80 border-slate-700 text-white focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo">
                   <SelectValue placeholder="Select gender" />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-800 border-slate-700 text-white">
+                <SelectContent className="bg-slate-800 border-slate-700 text-white z-50">
                   <SelectItem value="all" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">All Genders</SelectItem>
                   <SelectItem value="male" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">Male</SelectItem>
                   <SelectItem value="female" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">Female</SelectItem>
@@ -95,7 +95,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
               </Select>
             </div>
 
-            {/* Sort By */}
+            {/* Sort By - Select dropdown */}
             <div>
               <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
                 SORT BY
@@ -104,7 +104,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
                 <SelectTrigger className="bg-slate-800/80 border-slate-700 text-white focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo">
                   <SelectValue placeholder="Sort order" />
                 </SelectTrigger>
-                <SelectContent className="bg-slate-800 border-slate-700 text-white">
+                <SelectContent className="bg-slate-800 border-slate-700 text-white z-50">
                   <SelectItem value="none" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">Default</SelectItem>
                   <SelectItem value="alphabetical" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">Alphabetical</SelectItem>
                   <SelectItem value="gender" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">By Gender</SelectItem>
@@ -112,7 +112,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
               </Select>
             </div>
 
-            {/* Origin Filter */}
+            {/* Origin Filter - Input de texto */}
             <div>
               <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
                 ORIGIN
@@ -128,7 +128,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
               </div>
             </div>
 
-            {/* Location Filter */}
+            {/* Location Filter - Input de texto */}
             <div>
               <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
                 LOCATION
@@ -144,7 +144,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
               </div>
             </div>
 
-            {/* Episode Filter */}
+            {/* Episode Filter - Input de texto */}
             <div>
               <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
                 EPISODE
