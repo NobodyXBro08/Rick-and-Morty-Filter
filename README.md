@@ -1,73 +1,64 @@
-# Welcome to your Lovable project
+# Rick and Morty Filter - Prueba Técnica
 
-## Project info
+Mi nombre es **Omar Bonilla Rojas**, desarrollador frontend de 23 años, nacido en la ciudad de Bogotá, Colombia.  
+Esta es la presentación de mi prueba técnica, cuyo objetivo fue construir una aplicación web interactiva que consuma la API pública de Rick and Morty, permitiendo al usuario explorar personajes, ubicaciones y episodios de forma visual, dinámica y filtrable.
 
-**URL**: https://lovable.dev/projects/e854323b-e7e3-490d-a433-57f98ad17ad5
+---
 
-## How can I edit this code?
+## ✨ Descripción General
 
-There are several ways of editing your application.
+La aplicación fue desarrollada usando **Next.js**, **React**, **Tailwind CSS** y conexión con la API de Rick and Morty.  
+Además, decidí llevar la prueba un paso más allá clonando parte de la información de la API hacia una base de datos propia, con el fin de poder extender la funcionalidad de la app y manejar los datos con más libertad.
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/e854323b-e7e3-490d-a433-57f98ad17ad5) and start prompting.
+## 🧩 Proceso de Desarrollo
 
-Changes made via Lovable will be committed automatically to this repo.
+A continuación, detallo el paso a paso que seguí para construir la aplicación:
 
-**Use your preferred IDE**
+### 1. Estructura Inicial
+Comencé planteando la estructura básica de la aplicación con Next.js y configuré el entorno de trabajo. Inicialmente me enfoqué en levantar la arquitectura del frontend y el sistema de rutas.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 2. Interfaz Básica
+Diseñé una primera versión sencilla de la interfaz, que permitiera mostrar personajes con sus datos esenciales: imagen, nombre, especie y estado.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 3. Conexión a la API
+Integré la API pública de Rick and Morty (`https://rickandmortyapi.com/api`) usando `fetch` y `axios` para consumir los datos de personajes, ubicaciones y episodios.  
+Empecé a trabajar con paginación, filtros y renderizado dinámico.
 
-Follow these steps:
+### 4. Pruebas y validaciones
+A medida que conectaba la API, realicé pruebas con diferentes parámetros para asegurarme de que la app respondiera correctamente a búsquedas, errores de red y combinaciones de filtros.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### 5. Mejora visual y diseño responsivo
+Luego de validar la funcionalidad básica, me enfoqué en mejorar el diseño visual.  
+Estilicé la aplicación usando Tailwind CSS, agregué un fondo animado con estética inspirada en la serie y optimicé la interfaz para dispositivos móviles y pantallas pequeñas.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### 6. Clonación de la API (extensión backend)
+Con el objetivo de extender la app, cloné parte de los datos de la API original hacia una base de datos propia (MongoDB), a través de rutas personalizadas creadas en el backend.  
+Esto me permitió trabajar con ubicaciones, orígenes y episodios personalizados, abriendo la posibilidad de añadir nuevos datos que no existen en la API pública.
 
-# Step 3: Install the necessary dependencies.
-npm i
+### 7. Integración total y refinamiento
+Finalmente integré todo el flujo: interfaz, filtros, renderizado condicional, mensajes dinámicos, manejo de errores y funcionalidades completas para que la experiencia sea intuitiva, fluida y escalable.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+---
+
+## 🛠️ Tecnologías Utilizadas
+
+- **Next.js** (React Framework)
+- **React** (Frontend Library)
+- **Tailwind CSS** (Estilos rápidos y responsivos)
+- **Axios / Fetch API** (Consumo de APIs)
+- **MongoDB Atlas + Mongoose** (Clonación y manejo de datos personalizados)
+- **GitHub** (Control de versiones y repositorio remoto)
+
+---
+
+## 📦 Instalación y Ejecución
+
+```bash
+git clone https://github.com/tu-usuario/rick-and-morty-filter.git
+cd rick-and-morty-filter
+
+npm install
+
 npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/e854323b-e7e3-490d-a433-57f98ad17ad5) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
