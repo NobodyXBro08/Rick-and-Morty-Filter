@@ -1,8 +1,13 @@
-
-import React from 'react';
-import { Search } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import React from "react";
+import { Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface Filters {
   name: string;
@@ -38,15 +43,18 @@ interface FilterBarProps {
   episodes: EpisodeOption[];
 }
 
-const FilterBar = ({ filters, onFilterChange, origins, locations, episodes }: FilterBarProps) => {
+const FilterBar = ({
+  filters,
+  onFilterChange,
+  origins,
+  locations,
+  episodes,
+}: FilterBarProps) => {
   return (
     <div className="px-4 mb-8">
       <div className="max-w-6xl mx-auto">
         <div className="bg-slate-900/50 backdrop-blur-sm border border-rick-green-500/20 rounded-2xl p-6 shadow-2xl">
-          {/* Primera fila con los 4 filtros principales */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-6">
-            
-            {/* Search Input - Solo este campo es de texto libre */}
             <div className="relative">
               <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
                 SEARCH CHARACTER
@@ -63,30 +71,46 @@ const FilterBar = ({ filters, onFilterChange, origins, locations, episodes }: Fi
               </div>
             </div>
 
-            {/* Status Filter - Select dropdown */}
             <div>
               <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
                 STATUS
               </label>
-              <Select value={filters.status} onValueChange={(value) => onFilterChange({ status: value })}>
+              <Select
+                value={filters.status}
+                onValueChange={(value) => onFilterChange({ status: value })}
+              >
                 <SelectTrigger className="bg-slate-800/80 border-slate-700 text-white focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo">
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
                 <SelectContent className="bg-slate-800 border-slate-700 text-white z-50">
-                  <SelectItem value="all" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">All Status</SelectItem>
-                  <SelectItem value="alive" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">
+                  <SelectItem
+                    value="all"
+                    className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                  >
+                    All Status
+                  </SelectItem>
+                  <SelectItem
+                    value="alive"
+                    className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                  >
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                       Alive
                     </div>
                   </SelectItem>
-                  <SelectItem value="dead" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">
+                  <SelectItem
+                    value="dead"
+                    className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                  >
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-red-500 rounded-full"></div>
                       Dead
                     </div>
                   </SelectItem>
-                  <SelectItem value="unknown" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">
+                  <SelectItem
+                    value="unknown"
+                    className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                  >
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
                       Unknown
@@ -96,117 +120,179 @@ const FilterBar = ({ filters, onFilterChange, origins, locations, episodes }: Fi
               </Select>
             </div>
 
-            {/* Gender Filter - Select dropdown */}
             <div>
               <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
                 GENDER
               </label>
-              <Select value={filters.gender} onValueChange={(value) => onFilterChange({ gender: value })}>
+              <Select
+                value={filters.gender}
+                onValueChange={(value) => onFilterChange({ gender: value })}
+              >
                 <SelectTrigger className="bg-slate-800/80 border-slate-700 text-white focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo">
                   <SelectValue placeholder="Select gender" />
                 </SelectTrigger>
                 <SelectContent className="bg-slate-800 border-slate-700 text-white z-50">
-                  <SelectItem value="all" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">All Genders</SelectItem>
-                  <SelectItem value="male" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">Male</SelectItem>
-                  <SelectItem value="female" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">Female</SelectItem>
-                  <SelectItem value="genderless" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">Genderless</SelectItem>
-                  <SelectItem value="unknown" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">Unknown</SelectItem>
+                  <SelectItem
+                    value="all"
+                    className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                  >
+                    All Genders
+                  </SelectItem>
+                  <SelectItem
+                    value="male"
+                    className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                  >
+                    Male
+                  </SelectItem>
+                  <SelectItem
+                    value="female"
+                    className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                  >
+                    Female
+                  </SelectItem>
+                  <SelectItem
+                    value="genderless"
+                    className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                  >
+                    Genderless
+                  </SelectItem>
+                  <SelectItem
+                    value="unknown"
+                    className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                  >
+                    Unknown
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
-            {/* Sort By - Select dropdown */}
             <div>
               <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
                 SORT BY
               </label>
-              <Select value={filters.sortBy} onValueChange={(value) => onFilterChange({ sortBy: value })}>
+              <Select
+                value={filters.sortBy}
+                onValueChange={(value) => onFilterChange({ sortBy: value })}
+              >
                 <SelectTrigger className="bg-slate-800/80 border-slate-700 text-white focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo">
                   <SelectValue placeholder="Sort order" />
                 </SelectTrigger>
                 <SelectContent className="bg-slate-800 border-slate-700 text-white z-50">
-                  <SelectItem value="none" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">Default</SelectItem>
-                  <SelectItem value="alphabetical" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">Alphabetical</SelectItem>
-                  <SelectItem value="gender" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">By Gender</SelectItem>
+                  <SelectItem
+                    value="none"
+                    className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                  >
+                    Default
+                  </SelectItem>
+                  <SelectItem
+                    value="alphabetical"
+                    className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                  >
+                    Alphabetical
+                  </SelectItem>
+                  <SelectItem
+                    value="gender"
+                    className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                  >
+                    By Gender
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
-          {/* Segunda fila centrada con los 3 filtros restantes */}
-          <div className="flex justify-center">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl">
-              {/* Origin Filter - Select dropdown */}
-              <div>
-                <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
-                  ORIGIN
-                </label>
-                <Select value={filters.origin} onValueChange={(value) => onFilterChange({ origin: value })}>
-                  <SelectTrigger className="bg-slate-800/80 border-slate-700 text-white focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo">
-                    <SelectValue placeholder="Select origin" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-slate-800 border-slate-700 text-white z-50 max-h-60">
-                    <SelectItem value="all" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">All Origins</SelectItem>
-                    {origins.map((origin, index) => (
-                      <SelectItem 
-                        key={`${origin.name}-${index}`} 
-                        value={origin.name} 
-                        className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
-                      >
-                        {origin.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
+            <div>
+              <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
+                ORIGIN
+              </label>
+              <Select
+                value={filters.origin}
+                onValueChange={(value) => onFilterChange({ origin: value })}
+              >
+                <SelectTrigger className="bg-slate-800/80 border-slate-700 text-white focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo">
+                  <SelectValue placeholder="Select origin" />
+                </SelectTrigger>
+                <SelectContent className="bg-slate-800 border-slate-700 text-white z-50 max-h-60">
+                  <SelectItem
+                    value="all"
+                    className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                  >
+                    All Origins
+                  </SelectItem>
+                  {origins.map((origin, index) => (
+                    <SelectItem
+                      key={`${origin.name}-${index}`}
+                      value={origin.name}
+                      className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                    >
+                      {origin.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-              {/* Location Filter - Select dropdown */}
-              <div>
-                <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
-                  LOCATION
-                </label>
-                <Select value={filters.location} onValueChange={(value) => onFilterChange({ location: value })}>
-                  <SelectTrigger className="bg-slate-800/80 border-slate-700 text-white focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo">
-                    <SelectValue placeholder="Select location" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-slate-800 border-slate-700 text-white z-50 max-h-60">
-                    <SelectItem value="all" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">All Locations</SelectItem>
-                    {locations.map((location, index) => (
-                      <SelectItem 
-                        key={`${location.name}-${index}`} 
-                        value={location.name} 
-                        className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
-                      >
-                        {location.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+            <div>
+              <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
+                LOCATION
+              </label>
+              <Select
+                value={filters.location}
+                onValueChange={(value) => onFilterChange({ location: value })}
+              >
+                <SelectTrigger className="bg-slate-800/80 border-slate-700 text-white focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo">
+                  <SelectValue placeholder="Select location" />
+                </SelectTrigger>
+                <SelectContent className="bg-slate-800 border-slate-700 text-white z-50 max-h-60">
+                  <SelectItem
+                    value="all"
+                    className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                  >
+                    All Locations
+                  </SelectItem>
+                  {locations.map((location, index) => (
+                    <SelectItem
+                      key={`${location.name}-${index}`}
+                      value={location.name}
+                      className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                    >
+                      {location.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-              {/* Episode Filter - Select dropdown */}
-              <div>
-                <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
-                  EPISODE
-                </label>
-                <Select value={filters.episode} onValueChange={(value) => onFilterChange({ episode: value })}>
-                  <SelectTrigger className="bg-slate-800/80 border-slate-700 text-white focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo">
-                    <SelectValue placeholder="Select episode" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-slate-800 border-slate-700 text-white z-50 max-h-60">
-                    <SelectItem value="all" className="focus:bg-rick-green-500/20 focus:text-rick-green-500">All Episodes</SelectItem>
-                    {episodes.map((episode) => (
-                      <SelectItem 
-                        key={episode.id} 
-                        value={episode.id.toString()} 
-                        className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
-                      >
-                        {episode.episode} - {episode.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+            <div>
+              <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
+                EPISODE
+              </label>
+              <Select
+                value={filters.episode}
+                onValueChange={(value) => onFilterChange({ episode: value })}
+              >
+                <SelectTrigger className="bg-slate-800/80 border-slate-700 text-white focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo">
+                  <SelectValue placeholder="Select episode" />
+                </SelectTrigger>
+                <SelectContent className="bg-slate-800 border-slate-700 text-white z-50 max-h-60">
+                  <SelectItem
+                    value="all"
+                    className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                  >
+                    All Episodes
+                  </SelectItem>
+                  {episodes.map((episode) => (
+                    <SelectItem
+                      key={episode.id}
+                      value={episode.id.toString()}
+                      className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
+                    >
+                      {episode.episode} - {episode.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
         </div>

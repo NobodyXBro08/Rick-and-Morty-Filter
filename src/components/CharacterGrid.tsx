@@ -1,13 +1,13 @@
-
-import React from 'react';
-import { Character } from './RickAndMortyExplorer';
-import CharacterCard from './CharacterCard';
+import React from "react";
+import { Character, EpisodeOption } from "./RickAndMortyExplorer";
+import CharacterCard from "./CharacterCard";
 
 interface CharacterGridProps {
   characters: Character[];
   isLoading: boolean;
   isEmpty: boolean;
   totalCount?: number;
+  episodes: EpisodeOption[]; 
 }
 
 const LoadingSkeleton = () => (
@@ -27,41 +27,50 @@ const EmptyState = () => (
       <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-rick-green-500 to-portal-blue-500 flex items-center justify-center opacity-50">
         <span className="text-4xl">👽</span>
       </div>
-      <h3 className="font-exo font-bold text-2xl text-white mb-2">No Characters Found</h3>
+      <h3 className="font-exo font-bold text-2xl text-white mb-2">
+        No Characters Found
+      </h3>
       <p className="text-slate-400 font-exo">
-        Try adjusting your search filters to find more characters from the multiverse!
+        Try adjusting your search filters to find more characters from the
+        multiverse!
       </p>
     </div>
   </div>
 );
 
-const CharacterGrid = ({ characters, isLoading, isEmpty, totalCount }: CharacterGridProps) => {
+const CharacterGrid = ({
+  characters,
+  isLoading,
+  isEmpty,
+  totalCount,
+  episodes,
+}: CharacterGridProps) => {
   return (
     <div className="px-4 pb-12">
       <div className="max-w-7xl mx-auto">
-        {/* Results count */}
         {!isLoading && !isEmpty && totalCount && (
           <div className="mb-6">
             <p className="text-rick-green-500 font-exo font-semibold text-lg">
-              Found {totalCount} character{totalCount !== 1 ? 's' : ''} in the multiverse
+              Found {totalCount} character{totalCount !== 1 ? "s" : ""} in the
+              multiverse
             </p>
           </div>
         )}
 
-        {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {isLoading ? (
-            // Loading skeletons
             Array.from({ length: 8 }).map((_, index) => (
               <LoadingSkeleton key={index} />
             ))
           ) : isEmpty ? (
-            // Empty state
             <EmptyState />
           ) : (
-            // Character cards
             characters.map((character) => (
-              <CharacterCard key={character.id} character={character} />
+              <CharacterCard
+                key={character.id}
+                character={character}
+                episodes={episodes} // ✅ Le pasamos los episodios aquí
+              />
             ))
           )}
         </div>
