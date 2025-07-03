@@ -23,20 +23,21 @@ const Header = () => {
           <div className="inline-block relative">
             <div className="w-24 h-24 mx-auto bg-portal-gradient rounded-full animate-portal-spin opacity-80 flex items-center justify-center mb-4">
               <div className="w-12 h-12 bg-multiverse-dark-900 rounded-full flex items-center justify-center">
-                <span className="text-rick-green-500 text-2xl font-bold animate-rick-glow">R&M</span>
+                <span className="text-rick-green-500 text-2xl font-bold">R&M</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Main title with Rick and Morty style */}
+        {/* Main title with Rick and Morty style - reduced glow */}
         <div className="relative mb-8">
-          <h1 className="font-creepster font-black text-5xl md:text-7xl lg:text-8xl text-transparent bg-clip-text bg-rick-gradient animate-rick-glow mb-4 tracking-wider">
+          <h1 className="font-creepster font-black text-5xl md:text-7xl lg:text-8xl text-transparent bg-clip-text bg-rick-gradient mb-4 tracking-wider"
+              style={{ textShadow: '0 0 8px rgba(0, 255, 136, 0.3), 0 0 16px rgba(0, 255, 136, 0.2)' }}>
             RICK & MORTY
           </h1>
           
-          {/* Glitch effect overlay */}
-          <div className="absolute inset-0 font-creepster font-black text-5xl md:text-7xl lg:text-8xl text-rick-green-500 opacity-20 animate-pulse" 
+          {/* Glitch effect overlay - reduced opacity */}
+          <div className="absolute inset-0 font-creepster font-black text-5xl md:text-7xl lg:text-8xl text-rick-green-500 opacity-10 animate-pulse" 
                style={{ clipPath: 'polygon(0 0, 100% 0, 100% 45%, 0 45%)' }}>
             RICK & MORTY
           </div>
@@ -44,7 +45,7 @@ const Header = () => {
         
         {/* Subtitle with sci-fi styling */}
         <div className="relative mb-6">
-          <h2 className="font-orbitron font-bold text-2xl md:text-4xl text-portal-blue-500 tracking-[0.2em] mb-4 animate-pulse">
+          <h2 className="font-orbitron font-bold text-2xl md:text-4xl text-portal-blue-500 tracking-[0.2em] mb-4 opacity-80">
             CHARACTER FILTER
           </h2>
           
@@ -56,15 +57,15 @@ const Header = () => {
         
         {/* Decorative portal elements */}
         <div className="flex items-center justify-center gap-6 mt-8">
-          <div className="h-px bg-gradient-to-r from-transparent via-rick-green-500 to-portal-blue-500 flex-1 max-w-40 animate-pulse"></div>
+          <div className="h-px bg-gradient-to-r from-transparent via-rick-green-500 to-portal-blue-500 flex-1 max-w-40 opacity-60"></div>
           
           {/* Central portal */}
           <div className="relative">
-            <div className="w-8 h-8 bg-portal-gradient rounded-full animate-portal-pulse"></div>
-            <div className="absolute inset-0 w-8 h-8 bg-rick-green-500 rounded-full animate-ping opacity-30"></div>
+            <div className="w-8 h-8 bg-portal-gradient rounded-full animate-portal-pulse opacity-60"></div>
+            <div className="absolute inset-0 w-8 h-8 bg-rick-green-500 rounded-full animate-ping opacity-20"></div>
           </div>
           
-          <div className="h-px bg-gradient-to-r from-portal-blue-500 via-space-purple-500 to-transparent flex-1 max-w-40 animate-pulse"></div>
+          <div className="h-px bg-gradient-to-r from-portal-blue-500 via-space-purple-500 to-transparent flex-1 max-w-40 opacity-60"></div>
         </div>
         
         {/* Scientific formula decoration */}

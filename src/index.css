@@ -94,12 +94,13 @@ All colors MUST be HSL.
   75% { transform: translateY(-15px) translateX(10px); }
 }
 
+/* Reduced intensity rick-glow animation */
 @keyframes rick-glow {
   0%, 100% {
-    text-shadow: 0 0 5px hsl(var(--portal-green)), 0 0 10px hsl(var(--portal-green)), 0 0 15px hsl(var(--portal-green));
+    text-shadow: 0 0 3px hsl(var(--portal-green)), 0 0 6px hsl(var(--portal-green)), 0 0 9px hsl(var(--portal-green));
   }
   50% {
-    text-shadow: 0 0 10px hsl(var(--portal-green)), 0 0 20px hsl(var(--portal-green)), 0 0 30px hsl(var(--portal-green)), 0 0 40px hsl(var(--portal-blue));
+    text-shadow: 0 0 5px hsl(var(--portal-green)), 0 0 10px hsl(var(--portal-green)), 0 0 15px hsl(var(--portal-green)), 0 0 20px hsl(var(--portal-blue));
   }
 }
 
