@@ -27,29 +27,13 @@ export interface Character {
   created: string;
 }
 
-interface ApiResponse {
-  info: {
-    count: number;
-    pages: number;
-    next: string | null;
-    prev: string | null;
-  };
-  results: Character[];
-}
-
 interface Filters {
   name: string;
   status: string;
   gender: string;
-  origin: string;
   location: string;
   episode: string;
   sortBy: string;
-}
-
-interface OriginOption {
-  name: string;
-  url: string;
 }
 
 interface LocationOption {
@@ -63,36 +47,27 @@ export interface EpisodeOption {
   episode: string;
 }
 
-const fetchCharacters = async (
-  filters: Filters,
-  page: number = 1
-): Promise<ApiResponse> => {
+const fetchAllCharacters = async (filters: Filters): Promise<Character[]> => {
   const params = new URLSearchParams();
-
-  params.append("page", page.toString());
   if (filters.name) params.append("name", filters.name);
-  if (filters.status && filters.status !== "all")
-    params.append("status", filters.status);
-  if (filters.gender && filters.gender !== "all")
-    params.append("gender", filters.gender);
+  if (filters.status && filters.status !== "all") params.append("status", filters.status);
+  if (filters.gender && filters.gender !== "all") params.append("gender", filters.gender);
 
-  const url = `https://rickandmortyapi.com/api/character?${params.toString()}`;
-  const response = await fetch(url);
+  let allResults: Character[] = [];
+  let nextUrl: string | null = `https://rickandmortyapi.com/api/character?${params.toString()}`;
 
-  if (!response.ok) {
-    if (response.status === 404) {
-      return {
-        info: { count: 0, pages: 0, next: null, prev: null },
-        results: [],
-      };
-    }
-    throw new Error(`Error fetching characters: ${response.status}`);
+  while (nextUrl) {
+    const response = await fetch(nextUrl);
+    if (!response.ok) break;
+    const data = await response.json();
+    allResults = allResults.concat(data.results);
+    nextUrl = data.info.next;
   }
 
-  return response.json();
+  return allResults;
 };
 
-const fetchOrigins = async (): Promise<OriginOption[]> => {
+const fetchLocations = async (): Promise<LocationOption[]> => {
   const urls = [
     "https://rickandmortyapi.com/api/location?page=1",
     "https://rickandmortyapi.com/api/location?page=2",
@@ -108,8 +83,6 @@ const fetchOrigins = async (): Promise<OriginOption[]> => {
     url: location.url,
   }));
 };
-
-const fetchLocations = fetchOrigins;
 
 const fetchEpisodes = async (): Promise<EpisodeOption[]> => {
   let results: EpisodeOption[] = [];
@@ -156,14 +129,6 @@ const filterCharacters = (
 ): Character[] => {
   return characters.filter((character) => {
     if (
-      filters.origin &&
-      filters.origin !== "all" &&
-      character.origin.name !== filters.origin
-    ) {
-      return false;
-    }
-
-    if (
       filters.location &&
       filters.location !== "all" &&
       character.location.name !== filters.location
@@ -190,23 +155,16 @@ const RickAndMortyExplorer = () => {
     name: "",
     status: "all",
     gender: "all",
-    origin: "all",
     location: "all",
     episode: "all",
     sortBy: "none",
   });
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, isLoading, error, isError } = useQuery({
-    queryKey: ["characters", filters, currentPage],
-    queryFn: () => fetchCharacters(filters, currentPage),
+  const { data: allCharacters, isLoading, error, isError } = useQuery({
+    queryKey: ["characters", filters],
+    queryFn: () => fetchAllCharacters(filters),
     staleTime: 5 * 60 * 1000,
-  });
-
-  const { data: origins } = useQuery({
-    queryKey: ["origins"],
-    queryFn: fetchOrigins,
-    staleTime: 10 * 60 * 1000,
   });
 
   const { data: locations } = useQuery({
@@ -233,7 +191,6 @@ const RickAndMortyExplorer = () => {
   }, [isError, error]);
 
   const handleFilterChange = (newFilters: Partial<Filters>) => {
-    console.log("Filter change:", newFilters);
     setFilters((prev) => ({ ...prev, ...newFilters }));
     setCurrentPage(1);
   };
@@ -243,17 +200,16 @@ const RickAndMortyExplorer = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  let processedCharacters = data?.results || [];
+  let processedCharacters = allCharacters || [];
   processedCharacters = filterCharacters(processedCharacters, filters);
   processedCharacters = sortCharacters(processedCharacters, filters.sortBy);
 
-  const hasClientSideFilters =
-    filters.origin !== "all" ||
-    filters.location !== "all" ||
-    filters.episode !== "all";
-  const actualCount = hasClientSideFilters
-    ? processedCharacters.length
-    : data?.info.count || 0;
+  const charactersPerPage = 20;
+  const totalPages = Math.ceil(processedCharacters.length / charactersPerPage);
+  const paginatedCharacters = processedCharacters.slice(
+    (currentPage - 1) * charactersPerPage,
+    currentPage * charactersPerPage
+  );
 
   return (
     <div className="min-h-screen bg-multiverse-gradient relative overflow-hidden">
@@ -266,37 +222,36 @@ const RickAndMortyExplorer = () => {
         <FilterBar
           filters={filters}
           onFilterChange={handleFilterChange}
-          origins={origins || []}
           locations={locations || []}
           episodes={episodes || []}
         />
         <CharacterGrid
-          characters={processedCharacters}
+          characters={paginatedCharacters}
           isLoading={isLoading}
           isEmpty={processedCharacters.length === 0}
-          totalCount={actualCount}
-          episodes={episodes || []} // ✅ Pasar episodes al grid
+          totalCount={processedCharacters.length}
+          episodes={episodes || []}
         />
 
         <div className="px-4 pb-12">
           <div className="max-w-7xl mx-auto">
             <Pagination
               currentPage={currentPage}
-              totalPages={data?.info.pages || 1}
+              totalPages={totalPages}
               onPageChange={handlePageChange}
               isLoading={isLoading}
             />
 
-            {data?.info && (
+            {processedCharacters.length > 0 && (
               <div className="text-center mt-8 p-4 bg-multiverse-dark-800/30 backdrop-blur-sm rounded-lg border border-rick-green-500/20">
                 <p className="text-rick-cyan-400 font-orbitron text-sm tracking-wide">
                   <span className="text-rick-green-500 font-semibold">
                     DIMENSION C-137:
                   </span>{" "}
-                  Página {currentPage} de {data.info.pages}
+                  Página {currentPage} de {totalPages}
                 </p>
                 <p className="text-portal-blue-400 font-exo text-xs mt-1 opacity-80">
-                  ({data.info.count} personajes descubiertos en el multiverso)
+                  ({processedCharacters.length} personajes descubiertos en el multiverso)
                 </p>
               </div>
             )}

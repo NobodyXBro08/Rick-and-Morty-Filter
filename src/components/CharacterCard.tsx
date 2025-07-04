@@ -89,15 +89,6 @@ const CharacterCard = ({ character, episodes }: CharacterCardProps) => {
 
           <div className="flex items-center gap-2">
             <span className="text-rick-green-500/80 font-exo text-sm font-semibold">
-              Origin:
-            </span>
-            <span className="text-slate-300 font-exo text-sm truncate">
-              {character.origin.name}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <span className="text-rick-green-500/80 font-exo text-sm font-semibold">
               Location:
             </span>
             <span className="text-slate-300 font-exo text-sm truncate">

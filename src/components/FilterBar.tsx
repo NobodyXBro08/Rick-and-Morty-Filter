@@ -13,15 +13,9 @@ interface Filters {
   name: string;
   status: string;
   gender: string;
-  origin: string;
   location: string;
   episode: string;
   sortBy: string;
-}
-
-interface OriginOption {
-  name: string;
-  url: string;
 }
 
 interface LocationOption {
@@ -38,7 +32,6 @@ interface EpisodeOption {
 interface FilterBarProps {
   filters: Filters;
   onFilterChange: (filters: Partial<Filters>) => void;
-  origins: OriginOption[];
   locations: LocationOption[];
   episodes: EpisodeOption[];
 }
@@ -46,7 +39,6 @@ interface FilterBarProps {
 const FilterBar = ({
   filters,
   onFilterChange,
-  origins,
   locations,
   episodes,
 }: FilterBarProps) => {
@@ -202,37 +194,6 @@ const FilterBar = ({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
-            <div>
-              <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
-                ORIGIN
-              </label>
-              <Select
-                value={filters.origin}
-                onValueChange={(value) => onFilterChange({ origin: value })}
-              >
-                <SelectTrigger className="bg-slate-800/80 border-slate-700 text-white focus:border-rick-green-500 focus:ring-rick-green-500/20 font-exo">
-                  <SelectValue placeholder="Select origin" />
-                </SelectTrigger>
-                <SelectContent className="bg-slate-800 border-slate-700 text-white z-50 max-h-60">
-                  <SelectItem
-                    value="all"
-                    className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
-                  >
-                    All Origins
-                  </SelectItem>
-                  {origins.map((origin, index) => (
-                    <SelectItem
-                      key={`${origin.name}-${index}`}
-                      value={origin.name}
-                      className="focus:bg-rick-green-500/20 focus:text-rick-green-500"
-                    >
-                      {origin.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
             <div>
               <label className="block text-rick-green-500 font-exo font-semibold text-sm mb-2 tracking-wide">
                 LOCATION
